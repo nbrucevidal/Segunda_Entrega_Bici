@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   
+<link rel="icon" href="media/bike.png" sizes="16x16" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    
+    
+    <title>Ciclismo Urbano</title>
+    
+
+    
+    <!-- COMMON TAGS -->
+<meta charset="utf-8">
+<title>Ciclismo Urbano</title>
+<!-- Search Engine -->
+<meta name="description" content="Visualización estadística sobre la construcción de ciclovías en Santiago de Chile">
+<meta name="image" content="https://image.freepik.com/free-icon/bike-of-a-gymnast_318-46870.jpg">
+<!-- Schema.org for Google -->
+<meta itemprop="name" content="Ciclismo Urbano">
+<meta itemprop="description" content="Visualización estadística sobre la construcción de ciclovías en Santiago de Chile">
+<meta itemprop="image" content="https://image.freepik.com/free-icon/bike-of-a-gymnast_318-46870.jpg">
+<!-- Open Graph general (Facebook, Pinterest & Google+) -->
+<meta name="og:title" content="Ciclismo Urbano">
+<meta name="og:description" content="Visualización estadística sobre la construcción de ciclovías en Santiago de Chile">
+<meta name="og:image" content="https://image.freepik.com/free-icon/bike-of-a-gymnast_318-46870.jpg">
+<meta name="og:url" content="https://www.ciclismourbano.cl">
+<meta name="og:site_name" content="Ciclismo Urbano">
+<meta name="og:video" content="https://www.youtube.com/watch?v=GvhxhEsTCKs">
+<meta name="og:type" content="website">
+    -->
+
+    <!-- Vamos a buscar el CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--Vamos a buscar el CSS de Font Awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Vamos por nuestro CSS, basado en https://startbootstrap.com/template-overviews/grayscale/ -->
+    <link href="style.css" rel="stylesheet">
+    <!-- Aquí vamos por el estilo y script del mapa-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+</head>
+
+<body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top"><span class="titular"></span></a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#dataviz">Visualizaciones</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Este encabezado viene de https://startbootstrap.com/snippets/video-header/ -->
+    <header>
+        <div class="overlay"></div>
+        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <!--Favor revisar https://www.w3schools.com/html/html5_video.asp-->
+            <source src="media/Sunset_Bike.mp4" type="video/mp4">
+        </video>
+        <div class="container h-100">
+            <div class="d-flex text-center h-100">
+                <div class="my-auto w-100 text-white">
+                    <h1 class="display-3 titular"></h1>
+                    <h2>Transporte y Movilidad Sustentable</h2>
+                    <p class="pt-3"><a href="#about"><i class="fas fa-3x fa-arrow-alt-circle-down"></i></a></p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- About Section -->
+    <section id="about" class="about-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="text-white mb-4">Contexto ciudadano</h2>
+                    <p class="text-white-50">Debido a la alta congestión vehicular, cada vez más personas prefieren movilizarse en bicicleta, generando que la mayoría de las comunas generen políticas sustentables para el correcto tránsito urbano en dos ruedas, con la construcción de pistas exclusivas y conexión entre las mismas, incluso el cierre de calles para promover la buena salud.
+                </div>
+            </div>
+            <img src="media/rueda.png" class="img-fluid" alt="">
+        </div>
+    </section>
+
+    <!-- dataviz Section -->
+    <section id="dataviz" class="dataviz-section bg-light">
+        <div class="container">
+
+            <!-- MAPA -->
+            <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+                <div class="col-xl-8 col-lg-7">
+                    <div id="leaflet"></div>
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="featured-text text-center text-lg-left">
+                        <h4>Mapa de Santiago</h4>
+                        <p class="text-black-50 mb-0">Geolocalización de las comunas en donde más se han concentrado ciclovías desde el 2013 al 2018</p>
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <iframe src="https://www.google.com/maps/d/embed?mid=1dOO_kEQi6qMUjHHje0YBVLmsvKc&hl=en_US" width="640" height="480"></iframe>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <!-- PRIMER GRÁFICO -->
+            <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+                <div class="col-lg-6">
+                    <svg id="chart-1"></svg>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-left">
+                                <h4 class="text-white">Construcción de Kilómetros al 2018</h4>
+                                <p class="mb-0 text-white-50">Comunas con mayor alza en la construcción de ciclovías este año en la región Metropolitana. Esto ha permitido conectar 33 comunas de 34 al 2018, siendo Lo Barnechea la que aún carece de pista exclusiva para ciclos. </p>
+                                <hr class="d-none d-lg-block mb-0 ml-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEGUNDO GRÁFICO -->
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-6">
+                    <svg id="chart-2"></svg>
+                </div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h4 class="text-white">Aumento en los últimos 5 años </h4>
+                                <p class="mb-0 text-white-50">En la actualidad existen 346 kilókilometros de ciclovías (estudio de MapCity), lo que se traduce en un aumento del 74% con respecto al año 2013.</p>
+                                <hr class="d-none d-lg-block mb-0 mr-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black small text-center text-white-50">
+        <div class="container">
+            <p><span class="titular"></span> fue desarrollado por Nicolás Bruce Vidal para Multimedia II</p>
+            <p>Segundo semestre, 2018 · Diseño Gráfico</p>
+            <p>Universidad de Chile</p>
+            <p><a href="#page-top"><i class="fas fa-arrow-alt-circle-up"></i></a></p>
+        </div>
+    </footer>
+
+    <!-- Vamos a buscar algo de JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!--ahora aprovechamos que Bootstrap necesita jQuery, para manipular el DOM-->
+    <script>
+        (function($) {
+            "use strict"; // Start of use strict
+
+            $(".titular").text("Pedalear en Santiago");
+        })(jQuery); // End of use strict
+    </script>
+
+    <!--el tema de bootstrap que usamos necesita este script para funcionar-->
+    <script src="js/theme.js"></script>
+
+    <!--acá comienzan las visualizaciones-->
+
+    <!--primero el mapa-->
+
+   <script>
+        var mymap = L.map('leaflet').setView([-33.4778173,-70.7104496], 10);
+
+        var georeferencias = [
+        {
+            lugar: "Santiago Centro",
+            coordenadas: [-33.4533661,-70.6967031],
+        }, {
+            lugar: "Las Condes",
+            coordenadas: [-33.4233552,-70.5546079]
+        }, {
+            lugar: "La Pintana",
+            coordenadas: [-33.5914923,-70.673336]
+        }, {
+            lugar: "Peñalolén",
+            coordenadas: [-33.4858015,-70.5665495]
+        }, {
+            lugar: "La Reina",
+            coordenadas: [-33.4472567,-70.5653942]
+        }, {
+            lugar: "Providencia",
+            coordenadas: [-33.4266253,-70.6267594]
+        }, {
+            lugar: "San Bernardo",
+            coordenadas: [-33.6402847,-70.7985778]
+        }
+        ];
+        
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 14,
+            minZoom: 10,
+            id: 'mapbox.streets'
+        }).addTo(mymap);
+        
+        for (var x = 0; x < georeferencias.length; x++) {
+            lat = georeferencias[x].coordenadas[0];
+            lon = georeferencias[x].coordenadas[1];
+            circle = L.circle([lat, lon], {
+                fillColor: '#000',
+                fillOpacity: 0.5,
+                weight: 0,
+                radius: 1000
+            }).addTo(mymap);
+            console.log(lat + "," + lon);
+        }
+    </script>
+
+    <!--luego voy a buscar una biblioteca que Data Driven Documents (DDD = d3)-->
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!--esto es para un gráfico -->
+
+     <script>
+
+        var ciclovias = [
+        {comuna:"Santiago Centro", kilometros:15},
+            {comuna: "La Pintana", kilometros: 14.2 },
+        {comuna: "Peñalolén", kilometros: 14.1 },
+        {comuna: "La Reina", kilometros:10},
+        {comuna:"Providencia", kilometros:8.9},
+        {comuna:"San Bernardo", kilometros:7.3}
+        ];
+
+        var coso = d3.select("#chart-1").attr("width", "100%").attr("height", "320").style("background", "darkorange");
+
+        coso.selectAll("rect").data(ciclovias).enter().append("rect").attr("x",40).attr("y", function(d, i) { return (i + 1) * 40; }).attr("width", function(d) { return d.kilometros*10 }).attr("height",30).attr("fill","RGBA(230, 230, 230)")
+
+         coso.selectAll("text").data(ciclovias).enter().append("text").text(function(d) {return (d.comuna + " (" + d.kilometros + " km)")}).attr("text-anchor", "start").attr("x", function(d, i) { return (d.kilometros*10)+50 }).attr("y", function(d, i) { return ((i + 1) * 40)+20 }).attr("font-family", "sans-serif").attr("font-size", "12px").attr("fill", "white"); 
+
+    </script>
+
+    <!--esto es para otro gráfico -->
+
+    <script>
+
+            var data = [
+      {name: 'Ciclovías al 2013', circlesize: 3, color:"RGBA(230, 230, 230)"},
+      {name: 'Ciclovías al 2018', circlesize: 5, color:"RGBA(230, 230, 230)"},
+    ]    
+    var esto = d3.select("#chart-2").attr("width", "100%").attr("height", "400").style("background","darkorange");
+    var g = esto.selectAll("g")
+      .data(data)
+      .enter()
+      .append("g")  
+    g.append("circle")
+      .attr("cx", function(d, i) { return (300 * (i++)+100); })
+      .attr("cy", function(d) { return 200; })
+      .attr("r", function(d) { return d.circlesize*10; })
+      .attr("fill",function(d){ return d.color; })
+    g.append("text")
+      .attr("x", function(d, i) { return (300 * (i++)+100); })
+      .attr("y", function(d, i) { return 300; })
+      .attr("fill","white")
+      .attr('text-anchor','middle')
+      .text(function(d) { return d.name; })
+        
+    
+    
+    </script>
+    
+
+</body>
+
+</html>
